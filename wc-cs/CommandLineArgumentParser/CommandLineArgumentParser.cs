@@ -2,13 +2,9 @@ namespace wc_cs;
 
 public class CommandLineArgumentParser
 {
-    private List<CommandLineArgument> _validArgs;
-    
+    private List<CommandLineArgument> _validArgs = [];
 
-    public CommandLineArgumentParser()
-    {
-        _validArgs = new List<CommandLineArgument>();
-    }
+    public List<CommandLineArgument> SelectedArgs { get; set; } = [];
 
     public void Parse(string[] args)
     {
@@ -53,6 +49,7 @@ public class CommandLineArgumentParser
             if (foundArg != null)
             {
                 foundArg.IsPresent = true;
+                SelectedArgs.Add(foundArg);
             }
             else
             {
@@ -79,14 +76,19 @@ public class CommandLineArgumentParser
         throw new NotImplementedException();
     }
 
+    public bool SelectedArgumentsIncludesShort(char shortArg)
+    {
+        return SelectedArgs.Any(arg => arg.ShortArg == shortArg);
+    }
+
     public string SelectedArgumentsToString()
     {
         var strRepr = "(\n";
-        foreach (var arg in _validArgs)
-            if (arg.IsPresent)
-            {
-                strRepr += "    " +  arg + "\n";
-            }
+        foreach (var arg in SelectedArgs)
+        {
+            strRepr += "    " +  arg + "\n";
+        }
+
         strRepr += ")";
         return strRepr;
     }

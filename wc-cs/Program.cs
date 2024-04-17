@@ -11,6 +11,12 @@ class Program
         commandLineArgumentParser.Parse(args);
         Console.WriteLine(commandLineArgumentParser.SelectedArgumentsToString());
 
+        var wordCount = new WordCount();
+        if (commandLineArgumentParser.SelectedArgumentsIncludesShort('c'))
+        {
+            
+        }
+
     }
 
     public static CommandLineArgumentParser InitialiseCommandLineArgumentParser()
