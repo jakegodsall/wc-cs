@@ -3,59 +3,71 @@ namespace wc_cs;
 public class CommandLineArgumentParser
 {
     private List<CommandLineArgument> _validArgs = [];
-
-    public List<CommandLineArgument> SelectedArgs { get; set; } = [];
-
-    public void Parse(string[] args)
+    
+    public void ParseOptions(string[] args)
     {
         if (args.Length == 0)
         {
             throw new ArgumentException("No arguments provided.");
         }
         
-        for (var i = 0; i < args.Length - 1; i++)
+        for (var i = 0; i < args.Length; i++)
         {
             var arg = args[i];
-            var argType = "";
-            var argVal = "";
-            if (arg.StartsWith("--"))
-            {
-                argType = "long";
-                argVal = arg.Substring(2);
-            }
-            else if (arg.StartsWith('-'))
-            {
-                argType = "short";
-                argVal = arg.Substring(1);
-            }
+            ParseOptionArg(arg);
+        }
+    }
 
-            CommandLineArgument foundArg = null;
-            if (argType == "short")
-            {
-                if (argVal.Length == 1)
-                {
-                    foundArg = _validArgs.FirstOrDefault(a => char.Parse(argVal) == a.ShortArg);
-                }
-                else
-                {
-                    throw new ArgumentException($"Unknown or incorrect argument {arg}.");
-                }
-            }
-            else if (argType == "long")
-            {
-                foundArg = _validArgs.FirstOrDefault(a => argVal == a.LongArg);
-            }
+    private void ParseOptionArg(string arg)
+    {
+        var argType = "";
+        var argVal = "";
+        if (arg.StartsWith("--"))
+        {
+            argType = "long";
+            argVal = arg.Substring(2);
+        }
+        else if (arg.StartsWith('-'))
+        {
+            argType = "short";
+            argVal = arg.Substring(1);
+        }
 
-            if (foundArg != null)
+        CommandLineArgument foundArg = null;
+        if (argType == "short")
+        {
+            if (argVal.Length == 1)
             {
-                foundArg.IsPresent = true;
-                SelectedArgs.Add(foundArg);
+                foundArg = _validArgs.FirstOrDefault(a => char.Parse(argVal) == a.ShortArg);
             }
             else
             {
                 throw new ArgumentException($"Unknown or incorrect argument {arg}.");
             }
         }
+        else if (argType == "long")
+        {
+            foundArg = _validArgs.FirstOrDefault(a => argVal == a.LongArg);
+        }
+
+        if (foundArg != null)
+        {
+            foundArg.IsPresent = true;
+        }
+        else
+        {
+            throw new ArgumentException($"Unknown or incorrect argument {arg}.");
+        }
+    }
+
+    public bool ValidateFileExists(string filePath)
+    {
+        if (File.Exists(filePath))
+        {
+            return true;
+        }
+
+        throw new FileNotFoundException($"{filePath} does not exist.");
     }
 
     public void AddValidCommandLineArgument(CommandLineArgument commandLineArgument)
@@ -71,20 +83,17 @@ public class CommandLineArgumentParser
         }
     }
 
-    public bool RequiredArgumentIsPresent()
-    {
-        throw new NotImplementedException();
-    }
-
     public bool SelectedArgumentsIncludesShort(char shortArg)
     {
-        return SelectedArgs.Any(arg => arg.ShortArg == shortArg);
+        var selectedArgs = FilterForSelectedCommandLineArguments();
+        return selectedArgs.Any(arg => arg.ShortArg == shortArg);
     }
 
     public string SelectedArgumentsToString()
     {
+        var selectedArgs = FilterForSelectedCommandLineArguments();
         var strRepr = "(\n";
-        foreach (var arg in SelectedArgs)
+        foreach (var arg in selectedArgs)
         {
             strRepr += "    " +  arg + "\n";
         }
@@ -103,5 +112,10 @@ public class CommandLineArgumentParser
 
         strRepr += ")";
         return strRepr;
+    }
+    
+    private List<CommandLineArgument> FilterForSelectedCommandLineArguments()
+    {
+        return _validArgs.Where(arg => arg.IsPresent == true).ToList();
     }
 }

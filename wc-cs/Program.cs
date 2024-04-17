@@ -1,4 +1,5 @@
-﻿using wc_cs;
+﻿using System.Runtime.CompilerServices;
+using wc_cs;
 
 class Program
 {
@@ -7,19 +8,21 @@ class Program
         
         var commandLineArgumentParser = InitialiseCommandLineArgumentParser();
 
-        Console.WriteLine(commandLineArgumentParser.ValidArgumentsToString());
-        commandLineArgumentParser.Parse(args);
+        var options = args.Take(args.Length - 1).ToArray();
+        
+        commandLineArgumentParser.ParseOptions(options);
+        commandLineArgumentParser.ValidateFileExists(args[args.Length - 1]);
+        
         Console.WriteLine(commandLineArgumentParser.SelectedArgumentsToString());
 
         var wordCount = new WordCount();
         if (commandLineArgumentParser.SelectedArgumentsIncludesShort('c'))
         {
-            
         }
 
     }
 
-    public static CommandLineArgumentParser InitialiseCommandLineArgumentParser()
+    private static CommandLineArgumentParser InitialiseCommandLineArgumentParser()
     {
         var commandLineArgumentParser = new CommandLineArgumentParser();
         commandLineArgumentParser.AddValidCommandLineArguments(
