@@ -4,22 +4,13 @@ class Program
 {
     static void Main(string[] args)
     {
-        if (args.Length > 0)
-        {
-            Console.WriteLine("Arguments provided");
-            foreach (var arg in args)
-            {
-                Console.WriteLine(arg);
-            }
-        }
-        else
-        {
-            Console.WriteLine("No arguments provided");
-        }
-
-        var commandLineArgumentParser = InitialiseCommandLineArgumentParser();
         
-        commandLineArgumentParser.ParseArgs(args);
+        var commandLineArgumentParser = InitialiseCommandLineArgumentParser();
+
+        Console.WriteLine(commandLineArgumentParser.ValidArgumentsToString());
+        commandLineArgumentParser.Parse(args);
+        Console.WriteLine(commandLineArgumentParser.SelectedArgumentsToString());
+
     }
 
     public static CommandLineArgumentParser InitialiseCommandLineArgumentParser()

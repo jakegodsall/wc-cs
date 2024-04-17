@@ -17,8 +17,9 @@ public class CommandLineArgumentParser
             throw new ArgumentException("No arguments provided.");
         }
         
-        foreach (var arg in args)
+        for (var i = 0; i < args.Length - 1; i++)
         {
+            var arg = args[i];
             var argType = "";
             var argVal = "";
             if (arg.StartsWith("--"))
@@ -35,7 +36,14 @@ public class CommandLineArgumentParser
             CommandLineArgument foundArg = null;
             if (argType == "short")
             {
-                foundArg = _validArgs.FirstOrDefault(a => char.Parse(argVal) == a.ShortArg));
+                if (argVal.Length == 1)
+                {
+                    foundArg = _validArgs.FirstOrDefault(a => char.Parse(argVal) == a.ShortArg);
+                }
+                else
+                {
+                    throw new ArgumentException($"Unknown or incorrect argument {arg}.");
+                }
             }
             else if (argType == "long")
             {
@@ -45,6 +53,10 @@ public class CommandLineArgumentParser
             if (foundArg != null)
             {
                 foundArg.IsPresent = true;
+            }
+            else
+            {
+                throw new ArgumentException($"Unknown or incorrect argument {arg}.");
             }
         }
     }
@@ -64,6 +76,30 @@ public class CommandLineArgumentParser
 
     public bool RequiredArgumentIsPresent()
     {
-        
+        throw new NotImplementedException();
+    }
+
+    public string SelectedArgumentsToString()
+    {
+        var strRepr = "(\n";
+        foreach (var arg in _validArgs)
+            if (arg.IsPresent)
+            {
+                strRepr += "    " +  arg + "\n";
+            }
+        strRepr += ")";
+        return strRepr;
+    }
+    
+    public string ValidArgumentsToString()
+    {
+        var strRepr = "(\n";
+        foreach (var arg in _validArgs)
+        {
+            strRepr += "    " +  arg + "\n";
+        }
+
+        strRepr += ")";
+        return strRepr;
     }
 }

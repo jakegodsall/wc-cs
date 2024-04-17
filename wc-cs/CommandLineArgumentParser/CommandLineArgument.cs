@@ -16,4 +16,9 @@ public class CommandLineArgument
         IsRequired = isRequired;
         HelpText = helpText;
     }
+
+    public override string ToString()
+    {
+        return $"(short='-{ShortArg}', long='--{LongArg}', required='{IsRequired}', description='{HelpText}')";
+    }
 }
