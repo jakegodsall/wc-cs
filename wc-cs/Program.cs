@@ -11,14 +11,19 @@ class Program
         var options = args.Take(args.Length - 1).ToArray();
         
         commandLineArgumentParser.ParseOptions(options);
-        commandLineArgumentParser.ValidateFileExists(args[args.Length - 1]);
-        
-        Console.WriteLine(commandLineArgumentParser.SelectedArgumentsToString());
 
-        var wordCount = new WordCount();
-        if (commandLineArgumentParser.SelectedArgumentsIncludesShort('c'))
+        var filePath = args[args.Length - 1];
+        if (commandLineArgumentParser.ValidateFileExists(filePath))
         {
+            var wordCount = new WordCount(filePath);
+            
+            if (commandLineArgumentParser.SelectedArgumentsIncludesShort('c'))
+            {
+                Console.WriteLine(wordCount.CalculateBytes());
+            }
         }
+        
+       
 
     }
 

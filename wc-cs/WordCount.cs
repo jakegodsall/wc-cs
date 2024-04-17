@@ -1,25 +1,38 @@
+using System.Text;
+
 namespace wc_cs;
 
 public class WordCount
 {
+    private string TextContent { get; set; }
 
-    public int CalculateBytes()
+    public WordCount(string filePath)
     {
-        throw new NotImplementedException();
+        TextContent = LoadTextContentFromFile(filePath);
     }
     
-    public int CalculateCharacters()
+    private int CalculateBytes()
     {
-        throw new NotImplementedException();
+        return Encoding.UTF8.GetByteCount(TextContent);
     }
     
-    public int CalculateWords()
+    private int CalculateCharacters()
     {
-        throw new NotImplementedException();
+        return TextContent.Length;
     }
     
-    public int CalculateLines()
+    private int CalculateWords()
     {
-        throw new NotImplementedException();
+        return TextContent.Split(" ").Length;
+    }
+    
+    private int CalculateLines()
+    {
+        return TextContent.Split(Environment.NewLine).Length;
+    }
+    
+    private string LoadTextContentFromFile(string filePath)
+    {
+        return File.ReadAllText(filePath);
     }
 }
