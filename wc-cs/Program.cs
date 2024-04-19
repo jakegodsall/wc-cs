@@ -34,14 +34,14 @@ class Program
                 "words",
                 false,
                 "Display the number of words in the terminal window",
-                WordCountWriter.WriteWords()
+                WordCountWriter.WriteWords
                 ));
         parser.RegisterOption(
             new CliOption("m",
                 "characters",
                 false,
                 "Display the number of characters in the terminal window",
-                WordCountWriter.WriteCharacters()
+                WordCountWriter.WriteCharacters
                 ));
         parser.RegisterOption(
             new CliOption(
@@ -49,7 +49,7 @@ class Program
                 "bytes",
                 false,
                 "Display the number of bytes in the terminal window",
-                WordCountWriter.WriteBytes()
+                WordCountWriter.WriteBytes
                 ));
         return parser;
     }

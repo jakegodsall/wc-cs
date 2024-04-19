@@ -7,14 +7,14 @@ public class CliOption
     public bool IsRequired { get; set; }
     public string HelpText { get; set; }
     public bool IsPresent { get; set; }
-    public Action<string> Action { get; set; }
+    public Action<string, string> Action { get; set; }
 
     public CliOption(
         string shortName,
         string longName,
         bool isRequired,
         string helpText,
-        Action<string> action
+        Action<string, string> action
         )
     {
         ShortName = shortName;
