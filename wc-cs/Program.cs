@@ -11,8 +11,8 @@ class Program
         
         
         parser.ParseOptions(args);
-       
 
+        var dict = new Dictionary<int, string>();
     }
 
     private static CliOptionParser InitialiseCommandLineArgumentParser()
@@ -20,10 +20,37 @@ class Program
         // Instantiate a CLIOptionParser
         var parser = new CliOptionParser();
         // Register the legitimate options with the parser
-        parser.RegisterOption(new CliOption("l", "lines", false, "Display the number of lines in the terminal window"));
-        parser.RegisterOption(new CliOption("w", "words", false, "Display the number of words in the terminal window"));
-        parser.RegisterOption(new CliOption("m", "characters", false, "Display the number of characters in the terminal window"));
-        parser.RegisterOption(new CliOption("c", "bytes", false, "Display the number of bytes in the terminal window"));
+        parser.RegisterOption(
+            new CliOption(
+                "l",
+                "lines",
+                false,
+                "Display the number of lines in the terminal window",
+                WordCountWriter.WriteLines
+            ));
+        parser.RegisterOption(
+            new CliOption(
+                "w",
+                "words",
+                false,
+                "Display the number of words in the terminal window",
+                WordCountWriter.WriteWords()
+                ));
+        parser.RegisterOption(
+            new CliOption("m",
+                "characters",
+                false,
+                "Display the number of characters in the terminal window",
+                WordCountWriter.WriteCharacters()
+                ));
+        parser.RegisterOption(
+            new CliOption(
+                "c",
+                "bytes",
+                false,
+                "Display the number of bytes in the terminal window",
+                WordCountWriter.WriteBytes()
+                ));
         return parser;
     }
 }
