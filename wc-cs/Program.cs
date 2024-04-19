@@ -12,7 +12,12 @@ class Program
         
         parser.ParseOptions(args);
 
-        var dict = new Dictionary<int, string>();
+        var textContent = WordCount.LoadTextContentFromFile(parser.FilePath);
+
+        foreach (var option in parser.ParsedOptions)
+        {
+            parser.ValidOptions[option].Action(textContent, parser.FilePath);
+        }
     }
 
     private static CliOptionParser InitialiseCommandLineArgumentParser()

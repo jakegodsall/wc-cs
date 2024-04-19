@@ -4,14 +4,9 @@ namespace wc_cs;
 
 public static class WordCount
 {
-    public static int CalculateBytes(string textContent)
+    public static int CalculateLines(string textContent)
     {
-        return Encoding.UTF8.GetByteCount(textContent);
-    }
-    
-    public static int CalculateCharacters(string textContent)
-    {
-        return textContent.Length;
+        return textContent.Split(Environment.NewLine).Length;
     }
     
     public static int CalculateWords(string textContent)
@@ -19,9 +14,15 @@ public static class WordCount
         return textContent.Split(" ").Length;
     }
     
-    public static int CalculateLines(string textContent)
+    public static int CalculateCharacters(string textContent)
     {
-        return textContent.Split(Environment.NewLine).Length;
+        return textContent.Length;
+    }
+
+    
+    public static int CalculateBytes(string textContent)
+    {
+        return Encoding.UTF8.GetByteCount(textContent);
     }
     
     public static string LoadTextContentFromFile(string filePath)
