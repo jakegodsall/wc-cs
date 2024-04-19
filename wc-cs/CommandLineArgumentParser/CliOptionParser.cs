@@ -28,8 +28,6 @@ public class CliOptionParser
                 }
                 Console.WriteLine($"File does not exist at: {potentialFilePath}");
             }
-
-            
             
             // otherwise if arg has option syntax
             if (ValidOptions.TryGetValue(arg, out var option))
