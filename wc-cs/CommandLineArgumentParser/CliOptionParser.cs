@@ -28,9 +28,10 @@ public class CliOptionParser
                 }
                 Console.WriteLine($"File does not exist at: {potentialFilePath}");
             }
-
-            List<string> currentOptionList = null;
+            
             // otherwise if arg has option syntax
+            List<string> currentOptionList = null;
+            // Handle -abc = -a -b -c type options
             if (arg.StartsWith("-") && arg.Length != 2)
             {
                 currentOptionList = SplitShortOptions(arg);
@@ -55,9 +56,9 @@ public class CliOptionParser
         }
     }
 
-    public List<string> SplitShortOptions(string option)
+    private static List<string> SplitShortOptions(string option)
     {
-        var splitOption = option.Select(c => c.ToString()).ToList();
+        var splitOption = option.Select(c => "-" + c.ToString()).ToList();
         splitOption.RemoveAt(0);
         return splitOption;
     }
