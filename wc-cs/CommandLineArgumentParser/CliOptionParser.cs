@@ -6,7 +6,7 @@ namespace wc_cs;
 
 public class CliOptionParser
 {
-    public Dictionary<string, CliOption> ValidOptions = [];
+    private readonly Dictionary<string, CliOption> _validOptions = [];
     public HashSet<string> ParsedOptions = [];
     public string FilePath { get; set; }
 
@@ -30,7 +30,11 @@ public class CliOptionParser
             }
             
             // otherwise if arg has option syntax
-            if (ValidOptions.TryGetValue(arg, out var option))
+            if (arg.StartsWith("-") && arg.Length != 2)
+            {
+                var individualArgs = SplitShortOptions(arg);
+            }
+            if (_validOptions.TryGetValue(arg, out var option))
             {
                 ParsedOptions.Add(arg);
             }
@@ -41,16 +45,21 @@ public class CliOptionParser
         }
     }
 
+    public List<string> SplitShortOptions(string arg)
+    {
+        throw new NotImplementedException();
+    }
+
     public void RegisterOption(CliOption option)
     {
         if (!IsNullOrEmpty(option.ShortName))
         {
-            ValidOptions.Add($"-{option.ShortName}", option);
+            _validOptions.Add($"-{option.ShortName}", option);
         }
 
         if (!IsNullOrEmpty(option.LongName))
         {
-            ValidOptions.Add($"--{option.LongName}", option);
+            _validOptions.Add($"--{option.LongName}", option);
         }
     }
 }
