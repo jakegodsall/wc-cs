@@ -9,16 +9,14 @@ class Program
         var parser = InitialiseCommandLineArgumentParser();
         // Get the options from the command line
         
-        
         parser.ParseOptions(args);
         
+        // Get data from parser
         var filePath = parser.FilePath;
         var options = parser.ParsedOptions;
         var textContent = WordCount.LoadTextContentFromFile(parser.FilePath);
         
         WordCountWriter.Write(textContent, filePath, options);
-        
-        
     }
 
     private static CliOptionParser InitialiseCommandLineArgumentParser()
