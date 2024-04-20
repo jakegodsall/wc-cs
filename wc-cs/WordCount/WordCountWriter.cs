@@ -8,22 +8,27 @@ public class WordCountWriter
         
         if (options.Contains("-l") || options.Contains("--lines"))
         {
-            output += WordCount.CalculateLines(textContent) + " ";
+            output += PadLeft(WordCount.CalculateLines(textContent), 8);
         }
         if (options.Contains("-w") || options.Contains("--words"))
         {
-            output += WordCount.CalculateWords(textContent) + " ";
+            output += PadLeft(WordCount.CalculateWords(textContent), 8);
         }
         if (options.Contains("-m") || options.Contains("--characters"))
         {
-            output += WordCount.CalculateCharacters(textContent) + " ";
+            output += PadLeft(WordCount.CalculateCharacters(textContent), 8);
         }
         if (options.Contains("-c") || options.Contains("--bytes"))
         {
-            output += WordCount.CalculateBytes(textContent) + " ";
+            output += PadLeft(WordCount.CalculateBytes(textContent), 8);
         }
         
         output += " " + fileName;
         Console.WriteLine(output);
+    }
+
+    private static string PadLeft(int value, int totalLength)
+    {
+        return value.ToString().PadLeft(totalLength);
     }
 }
