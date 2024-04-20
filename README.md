@@ -13,4 +13,4 @@ As a new C# learner, my goal was to challenge myself by recreating existing tool
 This project not only helped in understanding the basics of C#, but also in grasping more complex concepts like parsing and file handling in a real-world application context. I plan to revisit this project and others like it as I learn more about best practices and advanced features in C#.
 
 ## License
-This project is open-sourced under the MIT License. See the [LICENSE]() file for more details.
+This project is open-sourced under the MIT License. See the [LICENSE](./LICENSE) file for more details.
