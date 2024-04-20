@@ -28,26 +28,38 @@ public class CliOptionParser
                 }
                 Console.WriteLine($"File does not exist at: {potentialFilePath}");
             }
-            
+
+            List<string> currentOptionList = null;
             // otherwise if arg has option syntax
             if (arg.StartsWith("-") && arg.Length != 2)
             {
-                var individualArgs = SplitShortOptions(arg);
-            }
-            if (_validOptions.TryGetValue(arg, out var option))
-            {
-                ParsedOptions.Add(arg);
+                currentOptionList = SplitShortOptions(arg);
             }
             else
             {
-                Console.WriteLine($"Unknown or invalid option: {arg}");
+                currentOptionList = new List<string>();
+                currentOptionList.Add(arg);
+            }
+
+            foreach (var currentOption in currentOptionList)
+            {
+                if (_validOptions.TryGetValue(currentOption, out var option))
+                {
+                    ParsedOptions.Add(currentOption);
+                }
+                else
+                {
+                    Console.WriteLine($"Unknown or invalid option: {arg}");
+                }
             }
         }
     }
 
-    public List<string> SplitShortOptions(string arg)
+    public List<string> SplitShortOptions(string option)
     {
-        throw new NotImplementedException();
+        var splitOption = option.Select(c => c.ToString()).ToList();
+        splitOption.RemoveAt(0);
+        return splitOption;
     }
 
     public void RegisterOption(CliOption option)
